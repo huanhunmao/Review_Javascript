@@ -1,0 +1,47 @@
+<!-- 原理：规定在一个单位时间内，只能触发一次函数。如果这个单位时间内触发多次函数，只有一次生效。
+适用场景
+拖拽场景：固定时间内只执行一次，防止超高频次触发位置变动
+缩放场景：监控浏览器resize -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #throttleBox{
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div draggable="true" id="throttleBox">节流测试</div>
+</body>
+<script>
+//     使用定时器实现
+// 当触发事件的时候，我们设置一个定时器，再触发事件的时候，如果定时器存在，就不执行，直到定时器执行，然后执行函数，清空定时器，这样就可以设置下个定时器 
+    function throttle(func, wait){
+        let timeout 
+        return function (...args){
+            // console.log('this', this); // this <div draggable="true" id="throttleBox">节流测试</div>
+            if(!timeout){
+                timeout = setTimeout(function(){
+                    timeout = null 
+                    func.apply(this, args)
+                },wait)
+            }
+        }
+    }
+
+    function dragFunc(e){
+        console.log(e.x, e.y);
+    }
+
+    const div = document.getElementById('throttleBox')
+    // div.addEventListener('drag', dragFunc)
+    div.addEventListener('drag', throttle(dragFunc,1000))
+</script>
+</html>

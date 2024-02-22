@@ -1,0 +1,47 @@
+<!-- 考虑更多的情况，包括立即执行和取消防抖等功能 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="debounceButton">防抖测试 </button>
+</body>
+<script>
+function debounceAdvanced(func, delay, options = {}) {
+  let timeoutId;
+  let immediate = options.immediate || false;
+
+  return function (...args) {
+    const context = this;
+    const later = () => {
+      timeoutId = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    };
+
+    clearTimeout(timeoutId);
+
+    if (immediate && !timeoutId) {
+      func.apply(context, args);
+    }
+
+    timeoutId = setTimeout(later, delay);
+  };
+}
+
+    // 用法示例
+const myFunction = () => {
+    console.log("执行防抖函数");
+  };
+  
+  const debouncedFunction = debounceAdvanced(myFunction, 500, {immediate: true});
+
+  const button = document.getElementById("debounceButton")
+      // 在需要防抖的事件上调用 debouncedFunction
+button.addEventListener('click', debouncedFunction);
+</script>
+</html>
