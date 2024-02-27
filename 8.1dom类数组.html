@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            <div>
+                <p>test</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 1)
+    // let domElements = document.querySelectorAll('div'); // 这是一个NodeList，即类数组对象
+    // console.log('domElements',domElements); // NodeList(3) [div, div, div] 里面包含 length
+
+    // let arrayFromDom = Array.from(domElements);
+
+    // console.log('arrayFromDom',arrayFromDom); //  [div, div, div]
+
+    // 2)
+    let domElements = document.querySelectorAll('div');
+    let arraySlicedDom = Array.prototype.slice.call(domElements); 
+    console.log('arraySlicedDom', arraySlicedDom); // [div, div, div]
+
+    // 3)
+    // 或者在现代浏览器中也可以简洁地写为
+    let arraySlicedDom1 = [...domElements]; // 使用扩展运算符
+    console.log('arraySlicedDom1', arraySlicedDom1); // [div, div, div]
+</script>
+</html>
